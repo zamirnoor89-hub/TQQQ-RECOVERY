@@ -2,15 +2,8 @@
   "name": "tqqq-recovery",
   "version": "2.0.0",
   "private": true,
-  "description": "TQQQ Recovery V2.0 — Multi-Strategy Investment Dashboard. Claude V2, SMA50/SMA200 rotation and monthly 95/5 for a TQQQ satellite, Twelve Data market data. Runs on Vercel (Upstash Redis) or any Node host (SQLite).",
-  "type": "module",
-  "engines": { "node": "22.x" },
-  "scripts": {
-    "start": "node --disable-warning=ExperimentalWarning dist/site/server.mjs",
-    "build": "node build.mjs",
-    "test": "node --test --disable-warning=ExperimentalWarning --experimental-strip-types tests/*.test.ts",
-    "dev": "npm run build && ALLOW_NO_PASSWORD=true DATA_DIR=./data npm start",
-    "crosscheck": "python3 -I research/compare.py",
-    "e2e": "node tests/e2e/browser.mjs"
+  "description": "TQQQ Recovery V2.0 dashboard, prebuilt for Vercel. Source and tests: tqqq-recovery-v2.zip.",
+  "engines": {
+    "node": "22.x"
   }
 }

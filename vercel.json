@@ -2,7 +2,7 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
   "installCommand": "",
-  "buildCommand": "node build.mjs",
+  "buildCommand": "test -f api/index.mjs && test -d public && echo 'Using the prebuilt dashboard in api/index.mjs' || (echo 'api/index.mjs or public/ is missing next to vercel.json. Upload all four files from tqqq-recovery-vercel.zip to the top level of the repository.' && exit 1)",
   "outputDirectory": "public",
   "regions": ["sin1"],
   "functions": {
