@@ -1,0 +1,17 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "",
+  "buildCommand": "node build.mjs",
+  "outputDirectory": "public",
+  "regions": ["sin1"],
+  "functions": {
+    "api/index.mjs": { "maxDuration": 120 }
+  },
+  "rewrites": [
+    { "source": "/:path*", "destination": "/api/index?__path=/:path*" }
+  ],
+  "headers": [
+    { "source": "/:path*", "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }] }
+  ]
+}

@@ -1,0 +1,13 @@
+services:
+  tqqq-recovery:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATA_DIR: /data
+    volumes:
+      - tqqq-data:/data
+    ports:
+      - "127.0.0.1:8080:8080"   # put HTTPS (Caddy/nginx/Cloudflare Tunnel) in front
+volumes:
+  tqqq-data:

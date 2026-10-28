@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Sign in · TQQQ Recovery</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400..800&family=Manrope:wght@500;700;800&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+:root { color-scheme: dark; --bg: #08111f; --panel: #0d192b; --line: #283e5d; --fg: #e8eef7; --fg-3: #6f829e; --accent: #5b9bff; --accent-ink: #06101f; --risk: #ff7378; --bull: #27c281; --font: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif; --font-in: "JetBrains Mono", ui-monospace, monospace; --w-heavy: 800; --w-bold: 700; --r: 12px; --pad: 26px; --lift: none; }
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) { color-scheme: light; --bg: #f7f5f0; --panel: #fffefb; --line: #dad3c7; --fg: #262420; --fg-3: #746d62; --accent: #3b5b85; --accent-ink: #ffffff; --risk: #994a3f; --bull: #5e9273; --font: "Inter Tight", "Helvetica Neue", Helvetica, Arial, sans-serif; --font-in: "Inter Tight", "Helvetica Neue", Helvetica, Arial, sans-serif; --w-heavy: 700; --w-bold: 600; --r: 16px; --pad: 34px; --lift: 0 2px 6px rgba(58, 46, 28, 0.05), 0 14px 36px rgba(58, 46, 28, 0.08); } }
+:root[data-theme="light"] { color-scheme: light; --bg: #f7f5f0; --panel: #fffefb; --line: #dad3c7; --fg: #262420; --fg-3: #746d62; --accent: #3b5b85; --accent-ink: #ffffff; --risk: #994a3f; --bull: #5e9273; --font: "Inter Tight", "Helvetica Neue", Helvetica, Arial, sans-serif; --font-in: "Inter Tight", "Helvetica Neue", Helvetica, Arial, sans-serif; --w-heavy: 700; --w-bold: 600; --r: 16px; --pad: 34px; --lift: 0 2px 6px rgba(58, 46, 28, 0.05), 0 14px 36px rgba(58, 46, 28, 0.08); }
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body { margin: 0; display: grid; place-items: center; background: var(--bg); color: var(--fg); font: 15px/1.55 var(--font); padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+main { width: min(380px, 100%); background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); padding: var(--pad); display: flex; flex-direction: column; gap: 22px; box-shadow: var(--lift); }
+.brand { display: flex; align-items: center; gap: 12px; }
+.brand strong { display: block; font-size: 18px; font-weight: var(--w-heavy); letter-spacing: -0.02em; }
+.brand span { color: var(--fg-3); font-size: 12px; font-weight: var(--w-bold); }
+form { display: flex; flex-direction: column; gap: 10px; }
+label { font-size: 12px; font-weight: var(--w-bold); color: var(--fg-3); }
+input { width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); font: 500 15px var(--font-in); }
+input:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+button { padding: 10px 14px; border: 0; border-radius: 8px; background: var(--accent); color: var(--accent-ink); font: var(--w-bold) 15px var(--font); cursor: pointer; }
+button:disabled { opacity: 0.6; }
+#err { color: var(--risk); font-size: 13px; min-height: 1.4em; margin: 0; }
+p.fine { margin: 0; color: var(--fg-3); font-size: 12px; }
+</style>
+</head>
+<body>
+<main>
+  <div class="brand">
+    <svg viewBox="0 0 32 32" width="34" height="34" aria-hidden="true"><rect x="1" y="1" width="30" height="30" rx="8" fill="var(--line)"/><path d="M5 18.5h22" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/><path d="M5 14l5 6 4.5-3.5 4 2.5L27 8" fill="none" stroke="var(--bull)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div><strong>TQQQ Recovery V2.0</strong><span>Multi-Strategy Investment Dashboard</span></div>
+  </div>
+  <form id="f" novalidate>
+    <label for="pw">Password</label>
+    <input id="pw" name="password" type="password" autocomplete="current-password" required autofocus>
+    <p id="err" role="alert"></p>
+    <button id="go" type="submit">Sign in</button>
+  </form>
+  <p class="fine">Private dashboard. Decision support only; it never places orders.</p>
+</main>
+<script>
+(() => {
+  try { const t = localStorage.getItem('tqqq-theme'); if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t); } catch {}
+  const f = document.getElementById('f'), err = document.getElementById('err'), go = document.getElementById('go');
+  f.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    err.textContent = '';
+    go.disabled = true;
+    try {
+      const r = await fetch('/api/login', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password: document.getElementById('pw').value }) });
+      if (r.status === 204) { location.replace('/'); return; }
+      const j = await r.json().catch(() => null);
+      err.textContent = (j && j.error && j.error.message) || 'Sign-in failed.';
+    } catch { err.textContent = 'The server could not be reached.'; }
+    go.disabled = false;
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+# systemd unit for a VPS without Docker. Copy the project to /opt/tqqq-recovery, run `node build.mjs`,
+# put the variables in /etc/tqqq-recovery.env (chmod 600), then:
+#   sudo cp deploy/tqqq-recovery.service /etc/systemd/system/ && sudo systemctl enable --now tqqq-recovery
+[Unit]
+Description=TQQQ Recovery dashboard
+After=network-online.target
+
+[Service]
+WorkingDirectory=/opt/tqqq-recovery
+EnvironmentFile=/etc/tqqq-recovery.env
+Environment=DATA_DIR=/var/lib/tqqq-recovery PORT=8080 HOST=127.0.0.1
+StateDirectory=tqqq-recovery
+ExecStart=/usr/bin/node --disable-warning=ExperimentalWarning dist/site/server.mjs
+Restart=on-failure
+DynamicUser=yes
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+
+[Install]
+WantedBy=multi-user.target
